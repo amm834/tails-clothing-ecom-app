@@ -1,7 +1,9 @@
 import {Fragment} from 'react'
 import {Disclosure, Menu, Transition} from '@headlessui/react'
-import {Bars3Icon, BellIcon, ShoppingBagIcon, XMarkIcon} from '@heroicons/react/24/outline'
-import {PlusIcon} from '@heroicons/react/20/solid'
+import {Bars3Icon, ShoppingBagIcon, XMarkIcon} from '@heroicons/react/24/outline'
+import {UserPlusIcon} from '@heroicons/react/24/solid'
+import Button from "./Button.jsx";
+import {Link} from "react-router-dom";
 
 function classNames(...classes) {
     console.log(classes)
@@ -42,28 +44,28 @@ export default function Navbar() {
                                 </div>
                                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                                     {/* Active: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                                    <a
-                                        href="#"
-                                        className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
+                                    <Link to="/"
+                                          href="#"
+                                          className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
                                     >
                                         Home
-                                    </a>
-                                    <a
-                                        href="#"
-                                        className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                                    </Link>
+                                    <Link to="/"
+                                          href="#"
+                                          className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
                                     >
                                         Contact
-                                    </a>
-                                    <a
-                                        href="#"
-                                        className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                                    >
-                                        Sign In
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="flex items-center">
                                 <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
+                                    <Link to="/login">
+                                        <Button>
+                                            <UserPlusIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true"/>
+                                            Login
+                                        </Button>
+                                    </Link>
                                     {/* Cart dropdown */}
                                     <Menu as="div" className="relative ml-3">
                                         <div>
