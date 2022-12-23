@@ -1,11 +1,11 @@
 import React from 'react';
 import Button from "../components/Button.jsx";
-import {createUserFromAuth, signInWithGooglePopup} from "../lib/firebase/firebase.js";
+import {createUserFromGoogleAuth, signInWithGooglePopup} from "../lib/firebase/firebase.js";
 
 const Login = () => {
     const logWithGoogle = async () => {
         const {user} = await signInWithGooglePopup()
-        await createUserFromAuth(user)
+        await createUserFromGoogleAuth(user)
     };
 
 

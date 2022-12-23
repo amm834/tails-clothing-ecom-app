@@ -1,4 +1,9 @@
 import React, {useState} from 'react';
+import {
+    createAuthUserWithEmailAndPassword,
+    createUserFromGoogleAuth,
+    signInWithGooglePopup
+} from "../lib/firebase/firebase.js";
 
 const SignUp = () => {
     const userDefaults = {
@@ -8,16 +13,35 @@ const SignUp = () => {
         password_confirmation: '',
     }
 
-    const [user, setUser] = useState(userDefaults)
+    const [userFields, setUserFields] = useState({...userDefaults})
 
     const handleInput = ({target}) => {
         const {name, value} = target
-        setUser({...userDefaults, [name]: value})
+        setUserFields({...userFields, [name]: value})
     }
 
-    const onSignUpFormSubmit = (event) => {
+    const onSignUpFormSubmit = async (event) => {
         event.preventDefault()
+        const {email, password} = userFields
+
+        try {
+            const {user} = await createAuthUserWithEmailAndPassword(email, password)
+
+            await createUserFromGoogleAuth(user, {displayName: userFields.name})
+        } catch (error) {
+            if (error.code === "auth/email-already-in-use") {
+                alert('Your cannot create an account,email  is already in use.')
+            } else {
+                console.log('Account creating', error)
+            }
+        }
     }
+
+    const logWithGoogle = async () => {
+        const {user} = await signInWithGooglePopup()
+        await createUserFromGoogleAuth(user)
+    };
+
 
     return (
         <>
@@ -25,7 +49,7 @@ const SignUp = () => {
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                        <form className="space-y-6" onSubmit={onSignUpFormSubmit}>
+                        <form className="space-y-6" method="POST" onSubmit={onSignUpFormSubmit}>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                                     Your name
@@ -36,7 +60,7 @@ const SignUp = () => {
                                         name="name"
                                         type="text"
                                         autoComplete="text"
-                                        required
+
                                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                         onChange={handleInput}/>
                                 </div>
@@ -51,7 +75,7 @@ const SignUp = () => {
                                         name="email"
                                         type="email"
                                         autoComplete="email"
-                                        required
+
                                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                         onChange={handleInput}/>
                                 </div>
@@ -67,7 +91,7 @@ const SignUp = () => {
                                         name="password"
                                         type="password"
                                         autoComplete="current-password"
-                                        required
+
                                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                         onChange={handleInput}
                                     />
@@ -86,9 +110,9 @@ const SignUp = () => {
                                         name="password_confirmation"
                                         type="password"
                                         autoComplete="current-password"
-                                        required
+
                                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                        onChange={event => user.password_confirmation = event.target.value}
+                                        onChange={event => userFields.password_confirmation = event.target.value}
                                     />
                                 </div>
                             </div>
@@ -118,8 +142,8 @@ const SignUp = () => {
                             <div className="mt-6 grid  gap-3">
                                 <div>
                                     <button
-                                        href="#"
                                         className="inline-flex gap-x-3 place-items-center w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
+                                        onClick={logWithGoogle}
                                     >
                                         <span className="sr-only">Sign in with Facebook</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
