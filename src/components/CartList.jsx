@@ -2,6 +2,7 @@ import React, {Fragment, useContext} from 'react';
 import {Popover, Transition} from "@headlessui/react";
 import {ShoppingBagIcon} from "@heroicons/react/24/outline/index.js";
 import {CartContext} from "../contexts/cart.context.jsx";
+import {Link} from "react-router-dom";
 
 
 const CartList = () => {
@@ -54,12 +55,13 @@ const CartList = () => {
                             ))}
                         </ul>
 
-                        <button
+                        <Link
+                            to="/checkout"
                             type="submit"
                             className="w-full rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                         >
                             Checkout
-                        </button>
+                        </Link>
 
                     </form>
                 </Popover.Panel>

@@ -16,12 +16,12 @@ const addQuantityToCartItems = (cartItems, product) => {
         return cartItems.map(item => {
             if (item.id === product.id) {
                 return {
-                    ...product,
+                    ...item,
                     quantity: item.quantity + 1
                 }
             }
 
-            return product
+            return item
         })
     }
 
@@ -44,7 +44,7 @@ const CartProvider = ({children}) => {
     }
 
     useEffect(() => {
-        const total = cartItems.length
+        const total = cartItems.reduce((total, item) => total + item.quantity, 0)
         setCartCount(total)
     }, [cartItems]);
 

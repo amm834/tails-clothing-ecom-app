@@ -9,6 +9,7 @@ import CartList from "./CartList.jsx";
 const navigation = [
     {name: 'Home', to: '/'},
     {name: 'Shop', to: '/shop'},
+    {name: 'Checkout', to: '/checkout'},
 ]
 
 export default function Navbar() {
