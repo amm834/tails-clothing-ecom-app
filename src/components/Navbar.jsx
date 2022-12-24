@@ -13,12 +13,8 @@ function classNames(...classes) {
 
 export default function Navbar() {
 
-    const {currentUser, setCurrentUser} = useContext(UserContext)
+    const {currentUser} = useContext(UserContext)
 
-    const handleSignOut = async () => {
-        await signOutUser()
-        setCurrentUser(null)
-    }
 
     return (
         <Disclosure as="nav" className="bg-light shadow">
@@ -79,7 +75,7 @@ export default function Navbar() {
                                         : <Link to="/login">
                                             <Button
                                                 className="bg-red-600 hover:bg-red-700 focus:ring-red-500 "
-                                                onClick={handleSignOut}
+                                                onClick={signOutUser}
                                             >
                                                 <ArrowRightOnRectangleIcon className="-ml-0.5 mr-2 h-4 w-4"
                                                                            aria-hidden="true"/>

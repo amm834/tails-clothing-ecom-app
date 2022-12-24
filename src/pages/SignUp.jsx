@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {
     createAuthUserWithEmailAndPassword,
     createUserFromGoogleAuth,
@@ -6,11 +6,9 @@ import {
 } from "../lib/firebase/firebase.js";
 import {Link} from "react-router-dom";
 import {UserIcon} from "@heroicons/react/20/solid/index.js";
-import {UserContext} from "../components/user.context.jsx";
 
 const SignUp = () => {
 
-    const {setCurrentUser} = useContext(UserContext)
 
     const userDefaults = {
         name: '',
@@ -33,8 +31,6 @@ const SignUp = () => {
         try {
             const {user} = await createAuthUserWithEmailAndPassword(email, password)
 
-            setCurrentUser({currentUser: user})
-            
             await createUserFromGoogleAuth(user, {displayName: userFields.name})
 
         } catch (error) {
