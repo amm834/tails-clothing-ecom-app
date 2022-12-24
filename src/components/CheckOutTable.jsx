@@ -3,7 +3,7 @@ import {CartContext} from "../contexts/cart.context.jsx";
 
 export default function CheckOutTable({cartItems}) {
 
-    const {addItemToCart} = useContext(CartContext)
+    const {addItemToCart, removeItemToCart, cleanItemToCart, totalPrice} = useContext(CartContext)
 
     return (
         <div className="mx-auto mx-4 mt-8 lg:mx-14">
@@ -30,7 +30,7 @@ export default function CheckOutTable({cartItems}) {
                     </thead>
                     <tbody>
                     {
-                        cartItems.map(cartItem => <tr className="bg-white border-b">
+                        cartItems.map(cartItem => <tr className="bg-white border-b" key={cartItem.id}>
                             <td className="p-4 w-32">
                                 <img src={cartItem.imageSrc} alt="Apple Watch"/>
                             </td>
@@ -41,7 +41,9 @@ export default function CheckOutTable({cartItems}) {
                                 <div className="flex items-center space-x-3">
                                     <button
                                         className="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                                        type="button">
+                                        type="button"
+                                        onClick={() => removeItemToCart(cartItem)}
+                                    >
                                         <span className="sr-only">Quantity button</span>
                                         <svg className="w-4 h-4" aria-hidden="true" fill="currentColor"
                                              viewBox="0 0 20 20"
@@ -76,11 +78,24 @@ export default function CheckOutTable({cartItems}) {
                                 ${cartItem.price}
                             </td>
                             <td className="py-4 px-6">
-                                <a href="#"
-                                   className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                                <button
+                                    className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                    onClick={() => cleanItemToCart(cartItem)}
+                                >Remove
+                                </button>
                             </td>
                         </tr>)
                     }
+                    <tr className="bg-white border-b">
+                        <td colSpan="5" className="py-4 px-6 text-right">
+                           <span className="mr-24 inline-flex items-center gap-x-4">
+                                <span className="text-medium font-bold">Total Price</span>
+                               <span className="text-xl font-bold">
+                               ${totalPrice}
+                               </span>
+                           </span>
+                        </td>
+                    </tr>
 
                     </tbody>
                 </table>
