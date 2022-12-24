@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
     createUserFromGoogleAuth,
     signInAuthUserWithEmailAndPassword,
@@ -6,9 +6,11 @@ import {
 } from "../lib/firebase/firebase.js";
 import {Link} from "react-router-dom";
 import {UserPlusIcon} from "@heroicons/react/24/solid";
+import {UserContext} from "../components/user.context.jsx";
 
 const Login = () => {
 
+    const {setCurrentUser} = useContext(UserContext)
 
     const logWithGoogle = async () => {
         const {user} = await signInWithGooglePopup()
@@ -19,7 +21,6 @@ const Login = () => {
         email: '',
         password: '',
     }
-
 
     const [userFields, setUserFields] = useState({...userDefaults})
 
@@ -36,9 +37,9 @@ const Login = () => {
         if (!password) alert('Please fill password')
 
         try {
-            await signInAuthUserWithEmailAndPassword(email, password)
-            // TODO: login success
-            console.log('success')
+            const {user} = await signInAuthUserWithEmailAndPassword(email, password)
+            setCurrentUser({currentUser: user})
+
         } catch (error) {
             if (error.code === "auth/email-already-in-use") {
                 alert('Your cannot create an account,email  is already in use.')

@@ -1,16 +1,25 @@
-import {Fragment} from 'react'
+import {Fragment, useContext} from 'react'
 import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, ShoppingBagIcon, XMarkIcon} from '@heroicons/react/24/outline'
-import {UserPlusIcon} from '@heroicons/react/24/solid'
+import {ArrowRightOnRectangleIcon, UserPlusIcon} from '@heroicons/react/24/solid'
 import Button from "./Button.jsx";
 import {Link} from "react-router-dom";
+import {UserContext} from "./user.context.jsx";
+import {signOutUser} from "../lib/firebase/firebase.js";
 
 function classNames(...classes) {
-    console.log(classes)
     return classes.filter(Boolean).join(' ')
 }
 
 export default function Navbar() {
+
+    const {currentUser, setCurrentUser} = useContext(UserContext)
+
+    const handleSignOut = async () => {
+        await signOutUser()
+        setCurrentUser(null)
+    }
+
     return (
         <Disclosure as="nav" className="bg-light shadow">
             {({open}) => (
@@ -60,12 +69,24 @@ export default function Navbar() {
                             </div>
                             <div className="flex items-center">
                                 <div className="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
-                                    <Link to="/login">
-                                        <Button>
-                                            <UserPlusIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true"/>
-                                            Login
-                                        </Button>
-                                    </Link>
+
+                                    {!currentUser ? <Link to="/login">
+                                            <Button>
+                                                <UserPlusIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true"/>
+                                                Login
+                                            </Button>
+                                        </Link>
+                                        : <Link to="/login">
+                                            <Button
+                                                className="bg-red-600 hover:bg-red-700 focus:ring-red-500 "
+                                                onClick={handleSignOut}
+                                            >
+                                                <ArrowRightOnRectangleIcon className="-ml-0.5 mr-2 h-4 w-4"
+                                                                           aria-hidden="true"/>
+                                                Logout
+                                            </Button>
+                                        </Link>
+                                    }
                                     {/* Cart dropdown */}
                                     <Menu as="div" className="relative ml-3">
                                         <div>
@@ -161,6 +182,8 @@ export default function Navbar() {
                             >
                                 Sign In
                             </Disclosure.Button>
+
+
                         </div>
                     </Disclosure.Panel>
                 </>

@@ -10,7 +10,7 @@ import {UserContext} from "../components/user.context.jsx";
 
 const SignUp = () => {
 
-    const {currentUser, setCurrentUser} = useContext(UserContext)
+    const {setCurrentUser} = useContext(UserContext)
 
     const userDefaults = {
         name: '',
@@ -33,9 +33,9 @@ const SignUp = () => {
         try {
             const {user} = await createAuthUserWithEmailAndPassword(email, password)
 
-            await createUserFromGoogleAuth(user, {displayName: userFields.name})
-
             setCurrentUser({currentUser: user})
+            
+            await createUserFromGoogleAuth(user, {displayName: userFields.name})
 
         } catch (error) {
             if (error.code === "auth/email-already-in-use") {
