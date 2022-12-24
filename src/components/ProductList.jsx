@@ -1,9 +1,11 @@
 import {useContext} from "react";
 import {ProductsContext} from "../contexts/products.context.jsx";
+import {CartContext} from "../contexts/cart.context.jsx";
 
 export default function ProductList() {
     const {products} = useContext(ProductsContext)
-    console.log(products)
+    const {addItemToCart} = useContext(CartContext)
+
 
     return (
         <div className="bg-white">
@@ -34,12 +36,12 @@ export default function ProductList() {
                                 </div>
                             </div>
                             <div className="mt-6">
-                                <a
-                                    href={product.href}
-                                    className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 py-2 px-8 text-sm font-medium text-gray-900 hover:bg-gray-200"
+                                <button
+                                    className="relative w-full flex items-center justify-center rounded-md border border-transparent bg-gray-100 py-2 px-8 text-sm font-medium text-gray-900 hover:bg-gray-200"
+                                    onClick={() => addItemToCart(product)}
                                 >
-                                    Add to bag<span className="sr-only">, {product.name}</span>
-                                </a>
+                                    Add to cart<span className="sr-only">, {product.name}</span>
+                                </button>
                             </div>
                         </div>
                     ))}

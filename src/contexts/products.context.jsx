@@ -8,7 +8,7 @@ const products_api = [
         href: '#',
         imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
         imageAlt: "Front of men's Basic Tee in black.",
-        price: '$35',
+        price: '35',
         color: 'Black',
     },
     {
@@ -17,7 +17,7 @@ const products_api = [
         href: '#',
         imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
         imageAlt: "Front of men's Basic Tee in black.",
-        price: '$35',
+        price: '35',
         color: 'Black',
     },
     {
@@ -26,7 +26,7 @@ const products_api = [
         href: '#',
         imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
         imageAlt: "Front of men's Basic Tee in black.",
-        price: '$35',
+        price: '35',
         color: 'Black',
     },
 ]
@@ -41,6 +41,8 @@ const ProductsProvider = ({children}) => {
         products,
         setProducts
     }
+
+
     return (
         <ProductsContext.Provider value={value}>
             {children}
