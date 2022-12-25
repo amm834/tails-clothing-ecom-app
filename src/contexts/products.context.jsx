@@ -3,19 +3,19 @@ import {getAllCategories} from "../lib/firebase/firebase.js";
 
 
 export const ProductsContext = createContext({
-    products: [],
+    products: {},
 })
 
 const ProductsProvider = ({children}) => {
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState({})
 
     useEffect(() => {
         const getCategories = async () => {
             const categories = await getAllCategories()
-            console.log(categories)
+            setProducts(categories)
         }
         getCategories()
-    })
+    }, [])
 
     const value = {
         products,
