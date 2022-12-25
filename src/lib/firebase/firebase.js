@@ -3,12 +3,12 @@ import {
     createUserWithEmailAndPassword,
     getAuth,
     GoogleAuthProvider,
+    onAuthStateChanged,
     signInWithEmailAndPassword,
     signInWithPopup,
-    signOut,
-    onAuthStateChanged
+    signOut
 } from 'firebase/auth'
-import {doc, getDoc, getFirestore, setDoc} from 'firebase/firestore'
+import {collection, doc, getDoc, getFirestore, setDoc, writeBatch} from 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: "AIzaSyCTn4wOTc1EnK4xNtZ173i-c2hAvAFJKlc",
@@ -31,6 +31,19 @@ export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 
 export const db = getFirestore()
+
+
+export fconst addDocumentList = async (collectionName, documentList) => {
+    const collectionRef = collection(db, collectionName)
+    const batch = writeBatch(db)
+
+    documentList.forEach(document => {
+        const docRef = doc(collectionRef, document.title.toLowerCase())
+        batch.set(docRef, document)
+    })
+
+    await batch.commit()
+}
 
 export const createUserFromGoogleAuth = async (userAuth, additionalInfo = {}) => {
     // create user with user's unique id
