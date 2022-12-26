@@ -1,9 +1,10 @@
 import {useContext} from "react";
-import {ProductsContext} from "../contexts/products.context.jsx";
 import {CartContext} from "../contexts/cart.context.jsx";
+import {useSelector} from "react-redux";
+import {selectProducts} from "../store/product/product.selector.js";
 
 export default function ProductList() {
-    const {products} = useContext(ProductsContext)
+    const {products} = useSelector(selectProducts)
     const {addItemToCart} = useContext(CartContext)
 
     const categories = Object.keys(products)
@@ -12,9 +13,9 @@ export default function ProductList() {
         <div className="bg-white">
             <div className="mx-auto max-w-2xl py-16 px-4 sm:py-14 sm:px-6 lg:max-w-7xl lg:px-8">
 
-                {categories.map(category => {
+                {categories.map((category, index) => {
                     return (
-                        <>
+                        <div as="Fragment" key={index}>
                             <h2 className="text-xl font-bold text-gray-900">{category}</h2>
 
                             <div
@@ -52,7 +53,7 @@ export default function ProductList() {
                                     </div>
                                 ))}
                             </div>
-                        </>
+                        </div>
                     )
                 })}
 
