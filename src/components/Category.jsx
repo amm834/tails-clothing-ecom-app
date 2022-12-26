@@ -1,7 +1,8 @@
 export default function Category() {
     return (
         <>
-            <div className="mt-4 grid min-h-full  grid-cols-1 grid-rows-2 gap-4 sm:px-4  lg:grid-cols-2 lg:grid-rows-1">
+            <div
+                className="mx-auto max-w-2xl py-14 px-4 sm:py-14 sm:px-6 lg:max-w-7xl lg:px-8 mt-4 grid min-h-full  grid-cols-1 grid-rows-2 gap-4 sm:px-4  lg:grid-cols-2 lg:grid-rows-1">
                 <div className="relative flex rounded-xl overflow-hidden">
                     <img
                         src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg"
