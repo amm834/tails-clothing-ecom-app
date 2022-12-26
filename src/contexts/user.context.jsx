@@ -1,4 +1,4 @@
-import {createContext, useEffect, useState} from "react";
+import {createContext, useEffect, useReducer, useState} from "react";
 import {createUserFromGoogleAuth, onAuthUserStateChange} from "../lib/firebase/firebase.js";
 
 export const UserContext = createContext({
@@ -6,9 +6,38 @@ export const UserContext = createContext({
     setCurrentUser: () => null,
 })
 
+export const user_reducer_actions = {
+    SET_CURRENT_USER: 'SET_CURRENT_USER',
+}
+
+const initial_user = {
+    currentUser: null,
+}
+
+export const userReducer = (state, action) => {
+    const {type, payload} = action
+    switch (type) {
+        case 'SET_CURRENT_USER':
+            return {
+                ...state,
+                currentUser: payload,
+            }
+        default:
+            throw new Error(`Unhandled type ${type} in userReducer`)
+    }
+}
+
 export const UserProvider = ({children}) => {
-    const [currentUser, setCurrentUser] = useState(null)
+
+    const [{currentUser}, dispatch] = useReducer(userReducer, initial_user)
+
+    const setCurrentUser = (user) => {
+        dispatch({type: user_reducer_actions.SET_CURRENT_USER, payload: user})
+    }
+
+
     const value = {currentUser, setCurrentUser}
+
 
     useEffect(() => {
         return onAuthUserStateChange(async user => {
