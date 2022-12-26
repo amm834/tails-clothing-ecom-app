@@ -6,17 +6,21 @@ import {BrowserRouter} from "react-router-dom";
 import {UserProvider} from "./contexts/user.context.jsx";
 import ProductsProvider from "./contexts/products.context";
 import CartProvider from "./contexts/cart.context";
+import {Provider} from "react-redux";
+import {store} from "./store/store.js";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <BrowserRouter>
-            <UserProvider>
-                <ProductsProvider>
-                    <CartProvider>
-                        <App/>
-                    </CartProvider>
-                </ProductsProvider>
-            </UserProvider>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <UserProvider>
+                    <ProductsProvider>
+                        <CartProvider>
+                            <App/>
+                        </CartProvider>
+                    </ProductsProvider>
+                </UserProvider>
+            </BrowserRouter>
+        </Provider>
     </React.StrictMode>,
 )

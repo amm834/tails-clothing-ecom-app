@@ -59,6 +59,7 @@ const cleanItemFromCartItems = (cartItems, product) => {
     return cartItems.filter(item => item.id !== product.id)
 }
 
+
 const CartProvider = ({children}) => {
     const [cartItems, setCartItems] = useState([])
     const [cartCount, setCartCount] = useState(0)
