@@ -1,10 +1,10 @@
-import {useContext} from 'react'
 import {Link} from "react-router-dom";
 import Button from "./Button.jsx";
 import {ArrowRightOnRectangleIcon, UserPlusIcon} from "@heroicons/react/24/solid";
-import {UserContext} from "../contexts/user.context.jsx";
 import {signOutUser} from "../lib/firebase/firebase.js";
 import CartList from "./CartList.jsx";
+import {useSelector} from "react-redux";
+import {selectCurrentUser} from "../store/user/user.selector.js";
 
 const navigation = [
     {name: 'Home', to: '/'},
@@ -14,7 +14,7 @@ const navigation = [
 
 export default function Navbar() {
 
-    const {currentUser} = useContext(UserContext)
+    const currentUser = useSelector(selectCurrentUser)
 
     return (
         <header className="relative bg-white">
@@ -60,7 +60,6 @@ export default function Navbar() {
                                     <span>Logout</span>
                                 </Button>}
 
-                            {/* Cart */}
                             <CartList/>
                         </div>
                     </div>

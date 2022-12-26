@@ -5,9 +5,25 @@ import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Shop from "./pages/Shop.jsx";
 import CheckOut from "./pages/CheckOut.jsx";
+import {createUserFromGoogleAuth, onAuthUserStateChange} from "./lib/firebase/firebase.js";
+import {useEffect} from "react";
+import {setCurrentUser} from "./store/user/user.action.js";
+import {useDispatch} from "react-redux";
 
 
 function App() {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        return onAuthUserStateChange(async user => {
+            if (user) {
+                await createUserFromGoogleAuth(user)
+            }
+            dispatch(setCurrentUser(user))
+        })
+    }, []);
+
 
     return (
         <>
